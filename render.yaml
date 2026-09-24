@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: auranoise-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -e .
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_EXPIRE_MINUTES
+        value: 1440
+      - key: INITIAL_USERNAME
+        sync: false
+      - key: INITIAL_PASSWORD
+        sync: false
+      - key: FRONTEND_ORIGINS
+        sync: false
